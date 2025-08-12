@@ -8,10 +8,13 @@ use App\Models\Produk;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProdukResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,43 +28,22 @@ class ProdukResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([TextInput::make('nama_produk')
-        ->label('Nama Produk')->required()->maxLength(255), TextInput::make('harga_produk')
-        ->label('Harga Produk')->required()->maxLength(255), TextInput::make('stok_produk')
-        ->label('Stok Produk')->required()->maxLength(255), Forms\Components\FileUpload::make('img_produk')
-        ->label('Gambar Produk')->image()->required(), TextInput::make('kategori_produk')->label('Kategori Produk')->required()->maxLength(255)]);
+        return $form->schema([TextInput::make('nama_produk')->label('Nama Produk')->required()->maxLength(255), 
+        TextInput::make('harga_produk')->label('Harga Produk')->required()->maxLength(255), 
+        TextInput::make('stok_produk')->label('Stok Produk')->required()->maxLength(255), 
+        Forms\Components\FileUpload::make('img_produk')->label('Gambar Produk')->image()->required(),
+         TextInput::make('kategori_produk')->label('Kategori Produk')->required()->maxLength(255), 
+         Toggle::make('status')->label('Admin Aktif?')->onColor('success')->offColor('danger')]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('nama_produk')
-                    ->label('Nama Produk')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('harga_produk')
-                    ->label('Harga Produk')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('stok_produk')
-                    ->label('Stok Produk')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('kategori_produk')
-                    ->label('Kategori Produk')
-                    ->searchable()
-                    ->sortable(),ImageColumn::make('img_produk')
-    ->label('Gambar Produk')
-    ->disk('public')
-    ->getStateUsing(fn ($record) => $record->img_produk ?: 'no-image.png')
-    ->size(80),
-            ])
+            ->columns([TextColumn::make('nama_produk')->label('Nama Produk')->searchable()->sortable(), TextColumn::make('harga_produk')->label('Harga Produk')->searchable()->sortable(), TextColumn::make('stok_produk')->label('Stok Produk')->searchable()->sortable(), TextColumn::make('kategori_produk')->label('Kategori Produk')->searchable()->sortable(), ImageColumn::make('img_produk')->label('Gambar Produk')->disk('public')->getStateUsing(fn($record) => $record->img_produk ?: 'no-image.png')->size(80), IconColumn::make('status')->boolean()])
             ->filters([
                 //
             ])
-            ->actions([Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make()])
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
 
