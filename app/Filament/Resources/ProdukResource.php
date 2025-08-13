@@ -29,17 +29,18 @@ class ProdukResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([TextInput::make('nama_produk')->label('Nama Produk')->required()->maxLength(255), 
-        TextInput::make('harga_produk')->label('Harga Produk')->required()->maxLength(255), 
-        TextInput::make('stok_produk')->label('Stok Produk')->required()->maxLength(255), 
-        Forms\Components\FileUpload::make('img_produk')->label('Gambar Produk')->image()->required(),
-         TextInput::make('kategori_produk')->label('Kategori Produk')->required()->maxLength(255), 
-       Toggle::make('status')
-    ->label(fn (Get $get) => $get('status') ? 'Aktif' : 'Tidak Aktif')
-    ->onColor('success')
-    ->offColor('danger')
-    ->live() // supaya label berubah langsung saat diubah
-    ->default(true)
+        return $form->schema([
+            TextInput::make('nama_produk')->label('Nama Produk')->required()->maxLength(255),
+            TextInput::make('harga_produk')->label('Harga Produk')->required()->maxLength(255),
+            TextInput::make('stok_produk')->label('Stok Produk')->required()->maxLength(255),
+            Forms\Components\FileUpload::make('img_produk')->label('Gambar Produk')->image()->required(),
+            TextInput::make('kategori_produk')->label('Kategori Produk')->required()->maxLength(255),
+            Toggle::make('status')
+                ->label(fn(Get $get) => $get('status') ? 'Aktif' : 'Tidak Aktif')
+                ->onColor('success')
+                ->offColor('danger')
+                ->live() // supaya label berubah langsung saat diubah
+                ->default(true),
         ]);
     }
 
