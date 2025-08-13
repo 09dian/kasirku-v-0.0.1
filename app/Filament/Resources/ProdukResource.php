@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Produk;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -33,7 +34,13 @@ class ProdukResource extends Resource
         TextInput::make('stok_produk')->label('Stok Produk')->required()->maxLength(255), 
         Forms\Components\FileUpload::make('img_produk')->label('Gambar Produk')->image()->required(),
          TextInput::make('kategori_produk')->label('Kategori Produk')->required()->maxLength(255), 
-         Toggle::make('status')->label('Admin Aktif?')->onColor('success')->offColor('danger')]);
+       Toggle::make('status')
+    ->label(fn (Get $get) => $get('status') ? 'Aktif' : 'Tidak Aktif')
+    ->onColor('success')
+    ->offColor('danger')
+    ->live() // supaya label berubah langsung saat diubah
+    ->default(true)
+        ]);
     }
 
     public static function table(Table $table): Table
