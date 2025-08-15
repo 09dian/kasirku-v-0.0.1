@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ProdukResource\Pages;
+namespace App\Filament\Clusters\ProdukCluster\Resources\ProdukResource\Pages;
 
-use App\Filament\Resources\ProdukResource;
+use App\Filament\Clusters\ProdukCluster\Resources\ProdukResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
