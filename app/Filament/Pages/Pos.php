@@ -14,6 +14,6 @@ class Pos extends Page
 
     public function mount()
     {
-        $this->produks = Produk::where('status', 'active')->get();
+        $this->produks = Produk::where('status', 1)->get();
     }
 }

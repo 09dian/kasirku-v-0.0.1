@@ -33,15 +33,11 @@ class ProdukResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-          Forms\Components\Select::make('kategori_produk')
-    ->label('Kategori Produk')
-    ->options(
-        Category::where('status', 1)
-            ->pluck('name_category', 'name_category')
-            ->toArray()
-    )
-    ->searchable()
-    ->required(),
+            Forms\Components\Select::make('kategori_produk')
+                ->label('Kategori Produk')
+                ->options(Category::where('status', 1)->pluck('name_category', 'name_category')->toArray())
+                ->searchable()
+                ->required(),
 
             Forms\Components\TextInput::make('nama_produk')->required(),
             Forms\Components\TextInput::make('harga_produk')->required(),
