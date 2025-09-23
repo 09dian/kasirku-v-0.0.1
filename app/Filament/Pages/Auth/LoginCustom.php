@@ -34,14 +34,14 @@ class LoginCustom extends Login
     {
         $loginType = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         return [
-             $loginType => $data['email'],
+             $loginType => $data['login'],
             'password' => $data['password'],
         ];
     }
      protected function throwFailureValidationException(): never
     {
         throw ValidationException::withMessages([
-            'data.' => __('filament-panels::pages/auth/login.messages.failed'),
+            'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
         ]);
     }
 
