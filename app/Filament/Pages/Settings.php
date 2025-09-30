@@ -15,10 +15,10 @@ class Settings extends Page implements Forms\Contracts\HasForms
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static string $view = 'filament.pages.settings';
     protected static ?string $title = 'Settings';
-    protected static ?string $navigationGroup = 'Account';
+    protected static ?string $navigationGroup = 'Other';
 
     public $name;
-    public $email;
+    public $email;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     public $password;
     public $photo;
 

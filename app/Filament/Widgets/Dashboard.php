@@ -17,9 +17,7 @@ class Dashboard extends BaseWidget
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success')
                 ->chart([7, 10, 8, 15, 20, 17, 25]), // data grafik kecil di bawah
-            Stat::make('Jumlah Produk', $jumlahProduk)
-                ->description($jumlahProduk < 100 ? 'Produk Hampir Habis' : 'Stok Aman')
-                ->color($jumlahProduk < 100 ? 'danger' : 'success'),
+            Stat::make('Jumlah Produk', $jumlahProduk),
             Stat::make('Barang Keluar', '100'),
         ];
     }

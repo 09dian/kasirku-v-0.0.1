@@ -1,0 +1,107 @@
+/* Layout utama */
+.pos-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* produk 75%, keranjang 25% */
+    gap: 20px;
+}
+
+/* Search + tombol SCAN */
+.pos-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.pos-search input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.btn-scan {
+    padding: 10px 16px;
+    background: #16a34a; /* hijau */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.btn-scan:hover {
+    background: #15803d;
+}
+
+/* Grid produk */
+.pos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom */
+    gap: 16px;
+}
+
+/* Card produk */
+.pos-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.pos-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.pos-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.pos-content {
+    padding: 12px;
+}
+.pos-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.pos-info {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+/* Keranjang belanja */
+.pos-cart {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.pos-cart h3 {
+    margin-bottom: 12px;
+}
+.cart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+}
+.cart-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+.cart-total {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}

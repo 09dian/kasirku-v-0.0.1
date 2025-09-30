@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Pages;
 
 use App\Models\Produk;
@@ -10,10 +11,18 @@ class Pos extends Page
     protected static string $view = 'filament.pages.pos';
     protected static ?string $title = 'Point of Sale';
 
-    public $produks;
+    public $search = ''; // untuk wire:model dari input
 
-    public function mount()
+    
+    public function getProduksProperty()
     {
-        $this->produks = Produk::where('status', 1)->get();
+        $search = $this->search; // ambil dulu ke variabel biasa
+
+        return Produk::query()
+            ->where('status', 1)
+            ->when($search, function ($query) use ($search) {
+                $query->where('nama_produk', 'like', "%{$search}%");
+            })
+            ->get();
     }
 }
