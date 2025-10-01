@@ -5,6 +5,12 @@
     gap: 20px;
 }
 
+@media (max-width: 768px) {
+    .pos-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Search + tombol SCAN */
 .pos-search {
     display: flex;
@@ -19,11 +25,13 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
+    background: #fff;
+    color: #333;
 }
 
 .btn-scan {
     padding: 10px 16px;
-    background: #16a34a; /* hijau */
+    background: #16a34a;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -39,18 +47,25 @@
 /* Grid produk */
 .pos-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 kolom */
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
+}
+@media (max-width: 768px) {
+    .pos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Card produk */
 .pos-card {
-    background: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
 }
 .pos-card:hover {
     transform: translateY(-4px);
@@ -63,6 +78,7 @@
 }
 .pos-content {
     padding: 12px;
+    flex: 1;
 }
 .pos-title {
     font-size: 14px;
@@ -76,6 +92,11 @@
 .pos-info {
     font-size: 12px;
     color: #666;
+    margin-bottom: 4px;
+}
+.pos-price {
+    color: #16a34a;
+    font-weight: bold;
     margin-bottom: 4px;
 }
 
@@ -104,4 +125,60 @@
     margin-top: 10px;
     font-size: 16px;
     font-weight: bold;
+}
+
+
+.no-produk {
+    grid-column: span 4;          /* isi 4 kolom grid penuh */
+    display: flex;
+    flex-direction: column;       /* gambar di atas, teks di bawah */
+    align-items: center;          /* rata tengah horizontal */
+    justify-content: center;      /* rata tengah vertikal */
+    text-align: center;
+    color: #6b7280;               /* abu-abu (mirip text-gray-500) */
+    height: 250px;                /* tinggi area */
+    gap: 12px;                    /* jarak antar elemen */
+}
+
+.no-produk img {
+    width:30%;                 /* ukuran gambar */
+    max-width: 40%;               /* biar tidak terlalu besar */
+    opacity: 0.8;                 /* agak transparan */
+}
+
+
+/* ============================== */
+/* DARK MODE (ikuti Filament)     */
+/* ============================== */
+html.dark .pos-search input {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+html.dark .pos-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+html.dark .pos-title {
+    color: #f1f5f9;
+}
+html.dark .pos-info {
+    color: #d1d5db;
+}
+html.dark .pos-price {
+    color: #4ade80; /* hijau lebih terang */
+}
+
+html.dark .pos-cart {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+html.dark .cart-list li {
+    border-bottom: 1px solid #475569;
+}
+html.dark .cart-total {
+    color: #fff;
 }
