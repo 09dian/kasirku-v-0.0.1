@@ -147,6 +147,66 @@
 }
 
 
+/* Default (light mode) */
+.keranjang {
+    display: flex;
+    align-items: stretch;   /* biar anak-anak (termasuk img) ikut tinggi penuh */
+    gap: 12px;
+
+    background-color: #ffffff;  /* putih */
+    border: 1px solid #e5e7eb;  /* abu abu (gray-200) */
+    border-radius: 0.75rem;     /* rounded-lg */
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); /* shadow-sm */
+    padding: 0;                 /* jangan kasih padding global */
+    width: 360px;               /* biar konsisten */
+    font-family: Arial, sans-serif;
+    overflow: hidden;           /* biar gambar ikut rounded */
+}
+
+.keranjang img {
+    width: 35%;         /* lebar sisi kiri */
+    height: 100%;        /* penuh tinggi card */
+    object-fit: cover;   /* gambar ter-crop rapi */
+    border-radius: 0;    /* ikut border parent, tidak perlu radius sendiri */
+    flex-shrink: 0;
+}
+
+
+.cart-qty {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 1rem; /* jarak ke kanan card */
+}
+
+.cart-qty button {
+    border: none;
+    padding: 6px 12px;   /* biar tombol kotak rapi */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    line-height: 1;      /* biar teks di tengah */
+}
+
+.cart-qty .minus {
+    background-color: orange;
+}
+
+.cart-qty .plus {
+    background-color: blue;
+}
+
+.cart-qty span {
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 24px;     /* biar stabil */
+    text-align: center;
+    display: inline-block;
+}
+
+
 /* ============================== */
 /* DARK MODE (ikuti Filament)     */
 /* ============================== */
@@ -181,4 +241,9 @@ html.dark .cart-list li {
 }
 html.dark .cart-total {
     color: #fff;
+}
+
+.dark .keranjang {
+    background-color: #111827;  /* gray-900 */
+    border-color: #374151;      /* gray-700 */
 }
