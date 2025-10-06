@@ -47,7 +47,7 @@
         </div>
 
         {{-- Kolom kanan: keranjang belanja --}}
-        <x-filament::card class="flex flex-col justify-between">
+        <x-filament::card class="flex flex-col h-full">
             <div class="head text-center">
                 @if (count($this->keranjang) > 0)
                     <div class="font-semibold text-lg mb-3">
@@ -57,7 +57,7 @@
                 <hr class="border-t border-gray-400 my-2 w-full">
             </div>
 
-            <div class="keranjang-list space-y-3 mt-4 flex-1">
+            <div class="keranjang-list space-y-3 mt-4 flex-1 overflow-auto">
                 @forelse($keranjang as $item)
                     <div
                         class="keranjang rounded-lg border shadow-sm dark:bg-gray-900 dark:border-gray-700 p-4 flex items-center gap-3">
@@ -85,14 +85,17 @@
             </div>
 
             @if (count($this->keranjang) > 0)
-                <x-filament::button color="primary" class="w-full mt-6">
-                    Checkout
-                </x-filament::button>
+                <div class="mt-4">
+                    <div class="text-right font-semibold text-lg mb-2">
+                        Total: Rp {{ number_format($this->total, 0, ',', '.') }}
+                    </div>
+                    <x-filament::button color="primary" class="w-full" wire:click="checkout">
+                        Checkout
+                    </x-filament::button>
+                </div>
             @endif
 
         </x-filament::card>
-
-
     </div>
 
     @push('scripts')

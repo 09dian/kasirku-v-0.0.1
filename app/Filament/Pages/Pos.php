@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Produk;
 use Filament\Pages\Page;
 
+
 class Pos extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
@@ -40,11 +41,11 @@ class Pos extends Page
             $this->keranjang[$id]['qty']++;
         } else {
             $this->keranjang[$id] = [
-                'id'    => $id,
-                'nama'  => $produk->nama_produk,
+                'id' => $id,
+                'nama' => $produk->nama_produk,
                 'harga' => $produk->harga_produk,
-                'img'   => $produk->img_produk,
-                'qty'   => 1,
+                'img' => $produk->img_produk,
+                'qty' => 1,
             ];
         }
 
@@ -70,7 +71,6 @@ class Pos extends Page
                 unset($this->keranjang[$id]);
             }
 
-            
             if (count($this->keranjang) === 0) {
                 $this->invoice = null;
             }
@@ -90,4 +90,12 @@ class Pos extends Page
 
         return $huruf . $tanggal;
     }
+    public function getTotalProperty()
+    {
+        return collect($this->keranjang)->sum(function ($item) {
+            return $item['harga'] * $item['qty'];
+        });
+    }
+
+    
 }
