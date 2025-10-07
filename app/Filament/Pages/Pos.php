@@ -15,6 +15,8 @@ class Pos extends Page
     public $search = '';
     public $keranjang = [];
     public $invoice = null;
+    public $bayar = 0;
+    public $nama = '';
 
     public function getProduksProperty()
     {

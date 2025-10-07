@@ -85,14 +85,44 @@
             </div>
 
             @if (count($this->keranjang) > 0)
-                <div class="mt-4">
-                    <div class="text-right font-semibold text-lg mb-2">
-                        Total: Rp {{ number_format($this->total, 0, ',', '.') }}
+                <div class="mt-6 border-t pt-4">
+                    <!-- Total -->
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-semibold text-lg">Total:</span>
+                        <span class="font-bold text-xl text-primary-600">
+                            Rp {{ number_format($this->total, 0, ',', '.') }}
+                        </span>
                     </div>
-                    <x-filament::button color="primary" class="w-full" wire:click="checkout">
+
+                    <!-- Input Bayar -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">
+                            Jumlah Bayar
+                        </label>
+                        <x-filament::input type="number" min="0" placeholder="Masukkan jumlah uang dari pembeli"
+                            wire:model.live="bayar" class="w-full" />
+                        <label class="block text-sm font-medium mb-1">
+                            Atas nama
+                        </label>
+                        <x-filament::input type="text" placeholder="Nama pembeli"
+                            wire:model.live="nama" class="w-full" />
+
+                    </div>
+
+                    <!-- Kembalian (opsional tampil kalau sudah cukup bayar) -->
+                    @if ($this->bayar >= $this->total && $this->total > 0)
+                        <div class="text-right font-medium text-green-600 mb-3">
+                            Kembalian: Rp {{ number_format($this->bayar - $this->total, 0, ',', '.') }}
+                        </div>
+                    @endif
+
+                    <!-- Tombol Checkout -->
+                    <x-filament::button color="primary" class="w-full py-2 text-base font-semibold"
+                        wire:click="checkout" :disabled="$this->bayar < $this->total || $this->total == 0">
                         Checkout
                     </x-filament::button>
                 </div>
+
             @endif
 
         </x-filament::card>
