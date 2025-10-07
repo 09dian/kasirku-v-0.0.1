@@ -3,8 +3,10 @@
 namespace App\Filament\Pages;
 
 use App\Models\Produk;
+use App\Models\History;
 use Filament\Pages\Page;
-
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 
 class Pos extends Page
 {
@@ -17,7 +19,7 @@ class Pos extends Page
     public $invoice = null;
     public $bayar = 0;
     public $nama = '';
-
+    public $select = '';
     public function getProduksProperty()
     {
         $search = $this->search;
@@ -98,6 +100,49 @@ class Pos extends Page
             return $item['harga'] * $item['qty'];
         });
     }
+    public function checkout()
+    {
+        // Pastikan ada data di keranjang
+        if (count($this->keranjang) == 0) {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'error',
+                'message' => 'Keranjang masih kosong!',
+            ]);
+            return;
+        }
 
-    
+        // Pastikan pembayaran cukup
+        if ($this->bayar < $this->total) {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'error',
+                'message' => 'Jumlah bayar kurang!',
+            ]);
+            return;
+        }
+
+        // Simpan ke tabel History
+        History::create([
+            'invoice' => $this->invoice,
+            'totalHarga' => $this->total,
+            'namaPembeli' => $this->nama ?: 'Pembeli Umum',
+            'genderPembeli' => $this->select ?: '-',
+        ]);
+
+        // (Opsional) bisa juga kamu simpan detail produk ke tabel lain, misal HistoryDetail kalau kamu mau buat nanti.
+        foreach ($this->keranjang as $item) {
+            $produk = Produk::find($item['id']);
+            if ($produk) {
+                $produk->stok_produk = max(0, $produk->stok_produk - $item['qty']);
+                $produk->save();
+            }
+        }
+        // Reset semua setelah checkout
+        $this->keranjang = [];
+        $this->bayar = 0;
+        $this->nama = '';
+        $this->select = '';
+        $this->invoice = '';
+
+        Notification::make()->title('Berhasil checkout')->success()->send();
+    }
 }

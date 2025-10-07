@@ -29,9 +29,16 @@
                                 <div class="pos-info harga">
                                     Rp {{ number_format($produk->harga_produk, 0, ',', '.') }}
                                 </div>
-                                <div class="pos-info">
-                                    Stok: {{ $produk->stok_produk }}
-                                </div>
+                                @if ((int) $produk->stok_produk > 0)
+                                    <div class="pos-info stok text-green-600">
+                                        Stok: {{ $produk->stok_produk }}
+                                    </div>
+                                @else
+                                    <div class="pos-info stok text-red-700 font-bold">
+                                        Stok habis
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     @empty
@@ -104,8 +111,23 @@
                         <label class="block text-sm font-medium mb-1">
                             Atas nama
                         </label>
-                        <x-filament::input type="text" placeholder="Nama pembeli"
-                            wire:model.live="nama" class="w-full" />
+                        <x-filament::input type="text" placeholder="Nama pembeli" wire:model.live="nama"
+                            class="w-full" />
+                        <div class="w-full space-y-1">
+                            <label for="jenis_kelamin"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                Jenis Kelamin
+                            </label>
+
+                            <select id="jenis_kelamin" wire:model.live="select"
+                                class="w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:border-primary-500 focus:ring-primary-500">
+                                <option value="">-- Pilih --</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+
+
 
                     </div>
 
