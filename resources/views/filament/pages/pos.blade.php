@@ -20,7 +20,11 @@
                 </div>
                 <div class="pos-grid">
                     @forelse($this->produks as $produk)
-                        <div wire:click="tambahKeranjang({{ $produk->id }})" class="pos-card">
+                        <div
+                            @if ((int) $produk->stok_produk > 0) wire:click="tambahKeranjang({{ $produk->id }})"
+                class="pos-card cursor-pointer"
+            @else
+                class="pos-card cursor-not-allowed opacity-50" @endif>
                             <img src="{{ asset('storage/' . $produk->img_produk) }}" alt="{{ $produk->nama_produk }}">
                             <div class="pos-content">
                                 <div class="pos-title">
@@ -38,7 +42,6 @@
                                         Stok habis
                                     </div>
                                 @endif
-
                             </div>
                         </div>
                     @empty
@@ -48,6 +51,7 @@
                         </div>
                     @endforelse
                 </div>
+
 
             </x-filament::card>
 

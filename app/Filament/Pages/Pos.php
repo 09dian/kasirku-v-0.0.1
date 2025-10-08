@@ -32,18 +32,21 @@ class Pos extends Page
             ->get();
     }
 
-    public function tambahKeranjang($produkId)
-    {
-        $produk = Produk::find($produkId);
-        if (!$produk) {
-            return;
-        }
+   public function tambahKeranjang($produkId)
+{
+    $produk = Produk::find($produkId);
+    if (!$produk) return;
 
-        $id = $produk->id;
+    $id = $produk->id;
 
-        if (isset($this->keranjang[$id])) {
+    if (isset($this->keranjang[$id])) {
+        if ($this->keranjang[$id]['qty'] < (int)$produk->stok_produk) {
             $this->keranjang[$id]['qty']++;
         } else {
+            session()->flash('error', 'Stok tidak cukup.');
+        }
+    } else {
+        if ((int)$produk->stok_produk > 0) {
             $this->keranjang[$id] = [
                 'id' => $id,
                 'nama' => $produk->nama_produk,
@@ -51,20 +54,35 @@ class Pos extends Page
                 'img' => $produk->img_produk,
                 'qty' => 1,
             ];
-        }
-
-        // ✅ kalau belum ada invoice, generate otomatis
-        if (!$this->invoice) {
-            $this->invoice = $this->generateInvoice();
+        } else {
+            session()->flash('error', 'Produk habis stok.');
         }
     }
 
-    public function plus($id)
-    {
-        if (isset($this->keranjang[$id])) {
-            $this->keranjang[$id]['qty']++;
-        }
+    if (!$this->invoice) {
+        $this->invoice = $this->generateInvoice();
     }
+}
+
+
+   public function plus($id)
+{
+    if (!isset($this->keranjang[$id])) return;
+
+    $produk = Produk::find($id);
+    if (!$produk) return;
+
+    if ($this->keranjang[$id]['qty'] < (int) $produk->stok_produk) {
+        $this->keranjang[$id]['qty']++;
+    } else {
+        Notification::make()
+            ->title('Stok Kurang')
+            ->danger()
+            ->send();
+        return; // optional, supaya tidak ada aksi lain
+    }
+}
+
 
     public function minus($id)
     {
