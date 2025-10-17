@@ -17,6 +17,7 @@
                     <x-filament::button color="primary" class="btn-scan">
                         SCAN
                     </x-filament::button>
+
                 </div>
                 <div class="pos-grid">
                     @forelse($this->produks as $produk)
@@ -155,6 +156,7 @@
     </div>
 
     @push('scripts')
-        <script src="{{ asset('kasirku.js') }}"></script>
+     
+         <script src="{{ asset('kasirku.js') }}"></script>
     @endpush
 </x-filament::page>
