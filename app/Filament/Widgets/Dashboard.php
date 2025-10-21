@@ -5,7 +5,6 @@ namespace App\Filament\Widgets;
 use Carbon\Carbon;
 use App\Models\Produk;
 use App\Models\History;
-use App\Models\BarangKeluar;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
@@ -14,11 +13,13 @@ class Dashboard extends BaseWidget
     protected function getStats(): array
     {
         $jumlahProduk = Produk::count();
-        $barangKeluar = BarangKeluar::sum('JumlahKeluar');
+       
 
         $kemarin = History::whereDate('created_at', Carbon::yesterday())->sum('totalHarga');
         $hariIni = History::whereDate('created_at', Carbon::today())->sum('totalHarga');
         $penghasilan = History::sum('totalHarga');
+        $barangKeluar = History::sum('jumlahProduk');
+
 
         $selisih = $hariIni - $kemarin;
 

@@ -4,9 +4,11 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use Filament\Widgets\Widget;
-use App\Filament\Widgets\Dashboard as StatsWidget;
 use App\Filament\Widgets\Chart;
+use App\Filament\Widgets\ProdukTerlaris;
 use App\Filament\Widgets\ProdukHampirHabis;
+use App\Filament\Widgets\Dashboard as StatsWidget;
+
 
 class Dashboard extends Page
 {
@@ -30,6 +32,7 @@ class Dashboard extends Page
         return [
             Chart::class, // Chart penjualan
             ProdukHampirHabis::class, // Tabel produk hampir habis
+            // ProdukTerlaris::class, // Tabel Produk terlaris
         ];
     }
 }

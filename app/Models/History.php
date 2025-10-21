@@ -11,8 +11,12 @@ class History extends Model
 
     protected $fillable = [
         'invoice',
-        'totalHarga',
         'namaPembeli',
         'genderPembeli',
+        'idProduk',
+        'namaProduk',
+        'jumlahProduk',
+        'harga',
+        'totalHarga',
     ];
 }

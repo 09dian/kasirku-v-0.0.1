@@ -20,6 +20,7 @@ class Pos extends Page
     public $bayar = 0;
     public $nama = '';
     public $select = '';
+
     public function getProduksProperty()
     {
         $search = $this->search;
@@ -32,57 +33,69 @@ class Pos extends Page
             ->get();
     }
 
-   public function tambahKeranjang($produkId)
-{
-    $produk = Produk::find($produkId);
-    if (!$produk) return;
+    public function tambahKeranjang($produkId)
+    {
+        $produk = Produk::find($produkId);
+        if (!$produk) {
+            return;
+        }
 
-    $id = $produk->id;
+        $id = $produk->id;
 
-    if (isset($this->keranjang[$id])) {
-        if ($this->keranjang[$id]['qty'] < (int)$produk->stok_produk) {
+        if (isset($this->keranjang[$id])) {
+            if ($this->keranjang[$id]['qty'] < (int) $produk->stok_produk) {
+                $this->keranjang[$id]['qty']++;
+            } else {
+                session()->flash('error', 'Stok tidak cukup.');
+            }
+        } else {
+            if ((int) $produk->stok_produk > 0) {
+                $this->keranjang[$id] = [
+                    'id' => $id,
+                    'nama' => $produk->nama_produk,
+                    'harga' => $produk->harga_produk,
+                    'img' => $produk->img_produk,
+                    'qty' => 1,
+                ];
+            } else {
+                session()->flash('error', 'Produk habis stok.');
+            }
+        }
+
+        if (!$this->invoice) {
+            $this->invoice = $this->generateInvoice();
+        }
+    }
+
+    public function hargaSatuan($id)
+    {
+        $produk = Produk::find($id);
+
+        if ($produk) {
+            return $produk->harga_produk;
+        }
+
+        return 0;
+    }
+
+    public function plus($id)
+    {
+        if (!isset($this->keranjang[$id])) {
+            return;
+        }
+
+        $produk = Produk::find($id);
+        if (!$produk) {
+            return;
+        }
+
+        if ($this->keranjang[$id]['qty'] < (int) $produk->stok_produk) {
             $this->keranjang[$id]['qty']++;
         } else {
-            session()->flash('error', 'Stok tidak cukup.');
-        }
-    } else {
-        if ((int)$produk->stok_produk > 0) {
-            $this->keranjang[$id] = [
-                'id' => $id,
-                'nama' => $produk->nama_produk,
-                'harga' => $produk->harga_produk,
-                'img' => $produk->img_produk,
-                'qty' => 1,
-            ];
-        } else {
-            session()->flash('error', 'Produk habis stok.');
+            Notification::make()->title('Stok Kurang')->danger()->send();
+            return; // optional, supaya tidak ada aksi lain
         }
     }
-
-    if (!$this->invoice) {
-        $this->invoice = $this->generateInvoice();
-    }
-}
-
-
-   public function plus($id)
-{
-    if (!isset($this->keranjang[$id])) return;
-
-    $produk = Produk::find($id);
-    if (!$produk) return;
-
-    if ($this->keranjang[$id]['qty'] < (int) $produk->stok_produk) {
-        $this->keranjang[$id]['qty']++;
-    } else {
-        Notification::make()
-            ->title('Stok Kurang')
-            ->danger()
-            ->send();
-        return; // optional, supaya tidak ada aksi lain
-    }
-}
-
 
     public function minus($id)
     {
@@ -139,12 +152,24 @@ class Pos extends Page
         }
 
         // Simpan ke tabel History
-        History::create([
-            'invoice' => $this->invoice,
-            'totalHarga' => $this->total,
-            'namaPembeli' => $this->nama ?: 'Pembeli Umum',
-            'genderPembeli' => $this->select ?: '-',
-        ]);
+        foreach ($this->keranjang as $item) {
+            $harga = $this->hargaSatuan($item['id']);
+            $jumlah = $item['qty'] ?? 1; // ambil dari key 'qty'
+            $produk = Produk::find($item['id']);
+            if (!$produk) {
+                continue;
+            } // skip kalau produk gak ketemu
+            History::create([
+                'invoice' => $this->invoice,
+                'harga' => $harga,
+                'namaPembeli' => $this->nama ?: 'Pembeli Umum',
+                'genderPembeli' => $this->select ?: '-',
+                'idProduk' => $item['id'],
+                'namaProduk' => $produk->nama_produk,
+                'jumlahProduk' => $jumlah,
+                'totalHarga' => $harga * $jumlah,
+            ]);
+        }
 
         // (Opsional) bisa juga kamu simpan detail produk ke tabel lain, misal HistoryDetail kalau kamu mau buat nanti.
         foreach ($this->keranjang as $item) {

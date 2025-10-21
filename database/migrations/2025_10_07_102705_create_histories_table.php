@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,9 +13,13 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->string('invoice');
-            $table->decimal('totalHarga', 15, 2);
             $table->string('namaPembeli');
             $table->string('genderPembeli');
+            $table->unsignedBigInteger('idProduk');
+            $table->string('namaProduk')->nullable();
+            $table->integer('jumlahProduk');
+            $table->decimal('harga', 15, 2);
+            $table->decimal('totalHarga', 15, 2);
             $table->timestamps();
         });
     }

@@ -42,6 +42,18 @@ class HistoryPenjualan extends Page implements HasTable
                         'Perempuan' => 'success',
                         default => 'gray',
                     }),
+                    Tables\Columns\TextColumn::make('namaProduk')
+                    ->label('Nama Produk')
+                    ->searchable(),
+                    Tables\Columns\TextColumn::make('harga')
+                        ->label('Harga Satuan')
+                        ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))
+                        ->sortable(),
+
+                    Tables\Columns\TextColumn::make('jumlahProduk')
+                        ->label('Jumlah Produk')
+                        ->sortable()
+                        ->alignRight(),
 
                 Tables\Columns\TextColumn::make('totalHarga')
                     ->label('Total Harga')

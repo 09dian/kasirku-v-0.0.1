@@ -21,6 +21,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
     public $email;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     public $password;
     public $photo;
+    public $namaToko;
 
     public function mount(): void
     {
@@ -29,6 +30,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
         $this->form->fill([
             'name'  => $user->name,
             'email' => $user->email,
+            'namaToko' => $user->namaToko,
             'photo' => $user->photo ?? null,
         ]);
     }
@@ -38,6 +40,9 @@ class Settings extends Page implements Forms\Contracts\HasForms
         return [
             Forms\Components\TextInput::make('name')
                 ->label('Full Name')
+                ->required(),
+                Forms\Components\TextInput::make('namaToko')
+                ->label('Nama Toko')
                 ->required(),
 
             Forms\Components\TextInput::make('email')
