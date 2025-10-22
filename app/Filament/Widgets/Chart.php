@@ -8,27 +8,19 @@ use Illuminate\Support\Facades\DB;
 class Chart extends ChartWidget
 {
     protected static ?string $heading = 'Grafik Penjualan';
-
     protected function getData(): array
     {
         // Cek apakah pakai SQLite
         $isSqlite = DB::getDriverName() === 'sqlite';
 
         // Ambil total harga per bulan
-        $data = History::select(
-                DB::raw($isSqlite
-                    ? "strftime('%m', created_at) as bulan"
-                    : "MONTH(created_at) as bulan"
-                ),
-                DB::raw('SUM(totalHarga) as total')
-            )
+        $data = History::select(DB::raw($isSqlite ? "strftime('%m', created_at) as bulan" : 'MONTH(created_at) as bulan'), DB::raw('SUM(totalHarga) as total'))
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
 
         // Label bulan
-        $labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         // Susun data sesuai bulan
         $dataset = [];
@@ -50,7 +42,6 @@ class Chart extends ChartWidget
             'labels' => $labels,
         ];
     }
-
 
     protected function getType(): string
     {

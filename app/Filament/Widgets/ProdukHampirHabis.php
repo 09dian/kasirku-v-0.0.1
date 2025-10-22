@@ -10,7 +10,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class ProdukHampirHabis extends BaseWidget
 {
     protected static ?string $heading = 'Produk Hampir Habis';
-    protected int | string | array $columnSpan = 'full';
+     protected int | string | array $columnSpan = 'full';
     protected static ?int $sort = 2; // urutan di dashboard (boleh ubah sesuai kebutuhan)
 
     public function table(Table $table): Table

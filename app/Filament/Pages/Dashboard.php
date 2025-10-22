@@ -9,12 +9,10 @@ use App\Filament\Widgets\ProdukTerlaris;
 use App\Filament\Widgets\ProdukHampirHabis;
 use App\Filament\Widgets\Dashboard as StatsWidget;
 
-
 class Dashboard extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
     protected static ?string $title = 'Dashboard';
-
     protected static string $view = 'filament.pages.dashboard';
 
     /**
@@ -26,13 +24,14 @@ class Dashboard extends Page
             StatsWidget::class, // Statistik: penghasilan, barang, produk
         ];
     }
+    
 
     protected function getFooterWidgets(): array
     {
         return [
+            ProdukTerlaris::class, // Tabel produk terlaris
             Chart::class, // Chart penjualan
             ProdukHampirHabis::class, // Tabel produk hampir habis
-            // ProdukTerlaris::class, // Tabel Produk terlaris
         ];
     }
 }
