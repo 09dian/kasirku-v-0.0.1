@@ -14,9 +14,33 @@
                             class="w-full" />
                     </x-filament::input.wrapper>
 
-                    <x-filament::button color="primary" class="btn-scan">
+                    <x-filament::button color="primary" class="btn-scan"
+                        x-on:click="$dispatch('open-modal', { id: 'scanModal' })">
                         SCAN
                     </x-filament::button>
+
+                    <x-filament::modal id="scanModal" width="md" alignment="center">
+                        <x-slot name="heading">
+                            Scan Produk
+                        </x-slot>
+
+                        <div class="text-center p-4 space-y-4">
+                            {{-- Tempat kamera --}}
+                            <div id="reader" style="width:100%; max-width:320px; margin:auto;"></div>
+
+                            {{-- Input hasil scan (opsional) --}}
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Hasil Scan:</label>
+                                <input type="text" id="scan-result"
+                                    class="border border-gray-300 rounded-md p-2 w-full text-center"
+                                    placeholder="Belum ada hasil scan" readonly>
+                            </div>
+                        </div>
+
+
+
+
+                    </x-filament::modal>
 
                 </div>
                 <div class="pos-grid">
@@ -156,7 +180,9 @@
     </div>
 
     @push('scripts')
-     
-         <script src="{{ asset('kasirku.js') }}"></script>
+        <script src="{{ asset('kasirku.js') }}"></script>
+        <script src="{{ asset('html5-qrcode.min.js') }}"></script>
+
+        {{-- Script aktifkan kamera --}}
     @endpush
 </x-filament::page>

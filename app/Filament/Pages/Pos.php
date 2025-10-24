@@ -188,4 +188,9 @@ class Pos extends Page
 
         Notification::make()->title('Berhasil checkout')->success()->send();
     }
+
+
+
+    
+    
 }
