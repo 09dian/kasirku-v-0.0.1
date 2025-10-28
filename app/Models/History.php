@@ -18,5 +18,6 @@ class History extends Model
         'jumlahProduk',
         'harga',
         'totalHarga',
+        'namaKasir'
     ];
 }

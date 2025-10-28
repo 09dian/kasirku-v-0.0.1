@@ -22,53 +22,31 @@ class HistoryPenjualan extends Page implements HasTable
     {
         return $table
             ->query(
-                History::query()->latest() // lebih ringkas dari orderBy('created_at', 'desc')
+                History::query()->latest(), // lebih ringkas dari orderBy('created_at', 'desc')
             )
             ->columns([
-                Tables\Columns\TextColumn::make('invoice')
-                    ->label('Invoice')
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice')->label('Invoice')->searchable()->sortable(),
 
-                Tables\Columns\TextColumn::make('namaPembeli')
-                    ->label('Nama Pembeli')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('namaPembeli')->label('Nama Pembeli')->searchable(),
 
-                Tables\Columns\TextColumn::make('genderPembeli')
-                    ->label('Gender')
-                    ->badge()
-                    ->color(fn($state) => match ($state) {
+                Tables\Columns\TextColumn::make('genderPembeli')->label('Gender')->badge()->color(
+                    fn($state) => match ($state) {
                         'Laki-laki' => 'info',
                         'Perempuan' => 'success',
                         default => 'gray',
-                    }),
-                    Tables\Columns\TextColumn::make('namaProduk')
-                    ->label('Nama Produk')
-                    ->searchable(),
-                    Tables\Columns\TextColumn::make('harga')
-                        ->label('Harga Satuan')
-                        ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))
-                        ->sortable(),
+                    },
+                ),
+                Tables\Columns\TextColumn::make('namaProduk')->label('Nama Produk')->searchable(),
+                Tables\Columns\TextColumn::make('harga')->label('Harga Satuan')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->sortable(),
 
-                    Tables\Columns\TextColumn::make('jumlahProduk')
-                        ->label('Jumlah Produk')
-                        ->sortable()
-                        ->alignRight(),
+                Tables\Columns\TextColumn::make('jumlahProduk')->label('Jumlah Produk')->sortable()->alignRight(),
 
-                Tables\Columns\TextColumn::make('totalHarga')
-                    ->label('Total Harga')
-                    ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('totalHarga')->label('Total Harga')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tanggal')
-                    ->dateTime('d M Y H:i')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Tanggal')->dateTime('d M Y H:i')->sortable(),
+                Tables\Columns\TextColumn::make('namaKasir')->label('Dilayani Oleh')->searchable(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            ->actions([Tables\Actions\ViewAction::make(), Tables\Actions\DeleteAction::make()])
             ->defaultSort('created_at', 'desc')
             ->paginated(true);
     }

@@ -168,6 +168,7 @@ class Pos extends Page
                 'namaProduk' => $produk->nama_produk,
                 'jumlahProduk' => $jumlah,
                 'totalHarga' => $harga * $jumlah,
+                'namaKasir' => auth()->user()->name,
             ]);
         }
 
