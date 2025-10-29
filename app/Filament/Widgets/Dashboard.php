@@ -7,9 +7,13 @@ use App\Models\Produk;
 use App\Models\History;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Forms\Components\DatePicker;
 
 class Dashboard extends BaseWidget
 {
+
+ 
+    
     protected function getStats(): array
     {
         $jumlahProduk = Produk::count();
@@ -31,7 +35,7 @@ class Dashboard extends BaseWidget
                 ->description('Perbedaan dari kemarin: ' . number_format($selisih, 0, ',', '.'))
                 ->descriptionIcon($selisih >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($selisih >= 0 ? 'success' : 'danger')
-                ->chart($chartData),
+                ->chart([$kemarin, $hariIni]),
 
             Stat::make('Jumlah Produk', $jumlahProduk),
             Stat::make('Barang Keluar', $barangKeluar),

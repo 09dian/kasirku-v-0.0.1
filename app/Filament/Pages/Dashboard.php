@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use Filament\Widgets\Widget;
 use App\Filament\Widgets\Chart;
+use Filament\Pages\Actions\Action;
 use App\Filament\Widgets\ProdukTerlaris;
 use App\Filament\Widgets\ProdukHampirHabis;
 use App\Filament\Widgets\Dashboard as StatsWidget;
@@ -24,7 +25,7 @@ class Dashboard extends Page
             StatsWidget::class, // Statistik: penghasilan, barang, produk
         ];
     }
-    
+   
 
     protected function getFooterWidgets(): array
     {
