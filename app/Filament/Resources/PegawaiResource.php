@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PegawaiResource\Pages;
-use App\Filament\Resources\PegawaiResource\RelationManagers;
-use App\Models\Pegawai;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Pegawai;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\PegawaiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PegawaiResource\RelationManagers;
 
 class PegawaiResource extends Resource
 {
@@ -42,9 +43,8 @@ class PegawaiResource extends Resource
             Forms\Components\Hidden::make('idToko')
                 ->required()
                 ->default(auth()->id()), //bagian ini hilang untuk tampilannya
-             Forms\Components\TextInput::make('id_pegawai')
-                ->required()->readOnly()
-                ->default(fn() => self::generateIdPegawai()),
+            Forms\Components\TextInput::make('id_pegawai')->required()->readOnly()->default(fn() => self::generateIdPegawai()),
+            Forms\Components\Hidden::make('password')->default(fn($get) => bcrypt($get('id_pegawai')))->dehydrated(true),
             Forms\Components\TextInput::make('nama')->required(),
             Forms\Components\TextInput::make('email')->required(),
             Forms\Components\TextInput::make('no_telp')->required(),
@@ -61,7 +61,11 @@ class PegawaiResource extends Resource
                 //
             ])
             ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
+            ->bulkActions([Tables\Actions\DeleteBulkAction::make()])
+
+            ->contentFooter(function () {
+                return view('password-note');
+            });
     }
 
     public static function getRelations(): array

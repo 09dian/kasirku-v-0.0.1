@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('idToko')->unique();
             $table->string('id_pegawai')->unique();
+            $table->string('password');
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('no_telp')->nullable();

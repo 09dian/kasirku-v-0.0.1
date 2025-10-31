@@ -7,6 +7,7 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 use App\Filament\Pages\Auth\LoginCustom;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -29,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(action: LoginCustom::class)
-            ->brandName('Kasirku 0.0.1')
+            ->brandName(fn() => Auth::check() ? Auth::user()->namaToko ?? 'Kasirku 0.0.1' : 'Kasirku 0.0.1')
             ->registration()
             ->colors([
                 'primary' => Color::Lime,
