@@ -60,21 +60,39 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
         ];
     }
 
-    public function save(): void
-    {
-        $data = $this->form->getState();
-        // logo
-        if (!empty($this->oldLogo) && $this->oldLogo !== ($data['logo'] ?? null)) {
-            if (Storage::disk('local')->exists($this->oldLogo)) {
-                Storage::disk('local')->delete($this->oldLogo);
-            }
-        }
+   public function save(): void
+{
+    $data = $this->form->getState();
 
-        // Simpan pengaturan ke file lokal private
-        Storage::put('printer.json', json_encode($data, JSON_PRETTY_PRINT));
-
-        Notification::make()->title('Pengaturan printer berhasil disimpan!')->success()->send();
+    // Baca file lama
+    $oldData = [];
+    if (Storage::exists('printer.json')) {
+        $oldData = json_decode(Storage::get('printer.json'), true);
     }
+
+    $oldLogo = $oldData['logo'] ?? null;
+    $newLogo = $data['logo'] ?? null;
+
+    // Hapus logo lama jika berbeda
+    if (!empty($oldLogo) && $oldLogo !== $newLogo) {
+        // pastikan path hanya 'logos/nama_file' tanpa '/storage/'
+        $oldLogoPath = str_replace('storage/', '', $oldLogo);
+
+        if (Storage::disk('public')->exists($oldLogoPath)) {
+            Storage::disk('public')->delete($oldLogoPath);
+        }
+    }
+
+    // Simpan konfigurasi printer
+    Storage::put('printer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+    Notification::make()
+        ->title('Pengaturan printer berhasil disimpan!')
+        ->success()
+        ->send();
+}
+
+
 
     protected function getFormActions(): array
     {
