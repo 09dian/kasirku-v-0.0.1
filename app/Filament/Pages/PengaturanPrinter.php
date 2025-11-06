@@ -22,7 +22,7 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
     public $printer_name;
     public $paper_size;
     public $port;
-    public array $logo = [];
+    public array|string $logo;
 
     protected function getHeaderActions(): array
     {
@@ -77,15 +77,13 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
                 ->label('Logo Toko / Printer Maximal: 1MB')
                 ->image()
                 ->maxFiles(1)
-                ->directory('logos') // disimpan di storage/app/public/logos
+                ->directory('logos')
                 ->imagePreviewHeight('100')
                 ->maxSize(1024)
                 ->columnSpanFull(),
 
             Forms\Components\TextInput::make('printer_name')->label('Nama Printer')->placeholder('Contoh: EPSON TM-T82')->required(),
-
             Forms\Components\TextInput::make('port')->label('Port / Device')->placeholder('Contoh: COM3 atau USB001')->required(),
-
             Forms\Components\Select::make('paper_size')
                 ->label('Ukuran Kertas')
                 ->options([
