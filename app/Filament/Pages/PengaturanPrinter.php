@@ -22,7 +22,7 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
     public $printer_name;
     public $paper_size;
     public $port;
-    public array|string $logo;
+    public array $logo = [];
 
     protected function getHeaderActions(): array
     {
@@ -35,8 +35,26 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
                 ->action(function () {
                     $this->cekPrinter();
                 }),
+            Action::make('resetPrinter')
+                ->label('Reset Printer')
+                ->icon('heroicon-o-printer')
+                ->color('danger')
+                ->requiresConfirmation()
+                ->action(function () {
+                    $this->resetPrinter();
+                }),
         ];
     }
+
+    public function resetPrinter()
+    {
+        Storage::delete('printer.json');
+        Storage::disk('public')->deleteDirectory('logos');
+        Notification::make()->title('Pengaturan printer telah direset!')->success()->send();
+
+        $this->dispatch('reloadPage'); // perintahkan browser reload
+    }
+
     public function cekPrinter(): void
     {
         // Ambil data printer dari file JSON
@@ -77,9 +95,11 @@ class PengaturanPrinter extends Page implements Forms\Contracts\HasForms
                 ->label('Logo Toko / Printer Maximal: 1MB')
                 ->image()
                 ->maxFiles(1)
-                ->directory('logos')
+                ->directory('logos') // disimpan di storage/app/public/logos
                 ->imagePreviewHeight('100')
                 ->maxSize(1024)
+                ->openable()
+                ->downloadable()
                 ->columnSpanFull(),
 
             Forms\Components\TextInput::make('printer_name')->label('Nama Printer')->placeholder('Contoh: EPSON TM-T82')->required(),
