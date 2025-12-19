@@ -17,9 +17,7 @@ use App\Filament\Resources\PegawaiResource\RelationManagers;
 class PegawaiResource extends Resource
 {
     protected static ?string $model = Pegawai::class;
-
     protected static ?string $navigationGroup = 'Other';
-
     protected static ?string $navigationLabel = 'Pegawai';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -40,11 +38,8 @@ class PegawaiResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Hidden::make('idToko')
-                ->required()
-                ->default(auth()->id()), //bagian ini hilang untuk tampilannya
-            Forms\Components\TextInput::make('id_pegawai')->required()->readOnly()->default(fn() => self::generateIdPegawai()),
-            Forms\Components\Hidden::make('password')->default(fn($get) => bcrypt($get('id_pegawai')))->dehydrated(true),
+            Forms\Components\Hidden::make('idToko')->default(fn() => auth()->id())->required(), //bagian ini hilang untuk tampilannya
+            Forms\Components\TextInput::make('id_pegawai')->label('ID Pegawai')->required()->disabled()->dehydrated(true)->default(fn() => self::generateIdPegawai()),
             Forms\Components\TextInput::make('nama')->required(),
             Forms\Components\TextInput::make('email')->required(),
             Forms\Components\TextInput::make('no_telp')->required(),
@@ -56,7 +51,13 @@ class PegawaiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable(), Tables\Columns\TextColumn::make('email')->searchable(), Tables\Columns\TextColumn::make('no_telp')->searchable(), Tables\Columns\TextColumn::make('jabatan')->searchable(), Tables\Columns\TextColumn::make('alamat')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable()])
+            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), 
+            Tables\Columns\TextColumn::make('nama')->searchable(), 
+            Tables\Columns\TextColumn::make('email')->searchable(), 
+            Tables\Columns\TextColumn::make('no_telp')->searchable(), 
+            Tables\Columns\TextColumn::make('jabatan')->searchable(), 
+            Tables\Columns\TextColumn::make('alamat')->searchable(), 
+            Tables\Columns\TextColumn::make('nama')->searchable()])
             ->filters([
                 //
             ])

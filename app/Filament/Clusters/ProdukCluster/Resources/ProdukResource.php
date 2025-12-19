@@ -42,7 +42,7 @@ class ProdukResource extends Resource
             Forms\Components\TextInput::make('nama_produk')->required(),
             Forms\Components\TextInput::make('harga_produk')->required(),
             Forms\Components\TextInput::make('stok_produk')->required(),
-            FileUpload::make('img_produk')->label('Gambar Produk')->image()->required(),
+            FileUpload::make('img_produk')->directory('imgProduk')->label('Gambar Produk')->image()->required(),
             Toggle::make('status')
                 ->label(fn(Get $get) => $get('status') ? 'Aktif' : 'Tidak Aktif')
                 ->onColor('success')
@@ -55,8 +55,11 @@ class ProdukResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([TextColumn::make('nama_produk')->label('Nama Produk')->searchable()->sortable(), TextColumn::make('harga_produk')->label('Harga Produk')->searchable()->sortable(), TextColumn::make('stok_produk')->label('Stok Produk')->searchable()->sortable(), 
-            TextColumn::make('kategori_produk')->label('Kategori Produk')->searchable()->sortable(), ImageColumn::make('img_produk')->label('Gambar Produk')->disk('public')->getStateUsing(fn($record) => $record->img_produk ?: 'no-image.png')->size(80), IconColumn::make('status')->boolean()])
+            ->columns([TextColumn::make('nama_produk')->label('Nama Produk')->searchable()->sortable(), 
+            TextColumn::make('harga_produk')->label('Harga Produk')->searchable()->sortable(), 
+            TextColumn::make('stok_produk')->label('Stok Produk')->searchable()->sortable(), 
+            TextColumn::make('kategori_produk')->label('Kategori Produk')->searchable()->sortable(), 
+            ImageColumn::make('img_produk')->label('Gambar Produk')->disk('public')->getStateUsing(fn($record) => $record->img_produk ?: 'no-image.png')->size(80), IconColumn::make('status')->boolean()])
             ->filters([
                 //
             ])
