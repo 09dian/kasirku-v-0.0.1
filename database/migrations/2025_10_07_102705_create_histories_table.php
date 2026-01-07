@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('jumlahProduk');
             $table->decimal('harga', 15, 2);
             $table->decimal('totalHarga', 15, 2);
+              $table->string('namaKasir');
             $table->timestamps();
         });
     }
