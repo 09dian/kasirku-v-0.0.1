@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->authGuard('web') // USER (pemilik Toko)
+            ->authGuard('admin') // USER (pemilik Toko)
             ->login(action: LoginCustom::class)
             ->brandName(fn() => Auth::check() ? Auth::user()->namaToko ?? 'Kasirku 0.0.1' : 'Kasirku 0.0.1')
             ->registration()

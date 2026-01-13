@@ -38,11 +38,8 @@ class HistoryPenjualan extends Page implements HasTable
                 ),
                 Tables\Columns\TextColumn::make('namaProduk')->label('Nama Produk')->searchable(),
                 Tables\Columns\TextColumn::make('harga')->label('Harga Satuan')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->sortable(),
-
                 Tables\Columns\TextColumn::make('jumlahProduk')->label('Jumlah Produk')->sortable()->alignRight(),
-
                 Tables\Columns\TextColumn::make('totalHarga')->label('Total Harga')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->sortable(),
-
                 Tables\Columns\TextColumn::make('created_at')->label('Tanggal')->dateTime('d M Y H:i')->sortable(),
                 Tables\Columns\TextColumn::make('namaKasir')->label('Dilayani Oleh')->searchable(),
             ])

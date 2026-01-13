@@ -4,6 +4,7 @@ namespace App\Filament\Pages\Auth;
 
 use Filament\Pages\Auth\Login;
 use Filament\Forms\Components\TextInput;
+use Filament\Actions\Action;
 use Illuminate\Validation\ValidationException;
 
 class LoginPegawai extends Login
@@ -24,6 +25,22 @@ class LoginPegawai extends Login
                     ])
                     ->statePath('data'),
             ),
+        ];
+    }
+
+    /**
+     * TAMBAH TOMBOL DI SAMPING LOGIN
+     */
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getAuthenticateFormAction(),
+
+            Action::make('admin')
+                ->label('Admin')
+                ->color('gray')
+                ->url('/admin/login') // ganti jika route admin berbeda
+               ,
         ];
     }
 
