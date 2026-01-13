@@ -40,6 +40,9 @@ class PegawaiResource extends Resource
         return $form->schema([
             Forms\Components\Hidden::make('idToko')->default(fn() => auth()->id())->required(), //bagian ini hilang untuk tampilannya
             Forms\Components\TextInput::make('id_pegawai')->label('ID Pegawai')->required()->disabled()->dehydrated(true)->default(fn() => self::generateIdPegawai()),
+
+            // PASSWORD = ID PEGAWAI
+            Forms\Components\Hidden::make('password')->dehydrated(true)->default(fn(Forms\Get $get) => Hash::make($get('id_pegawai'))),
             Forms\Components\TextInput::make('nama')->required(),
             Forms\Components\TextInput::make('email')->required(),
             Forms\Components\TextInput::make('no_telp')->required(),
@@ -51,13 +54,7 @@ class PegawaiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), 
-            Tables\Columns\TextColumn::make('nama')->searchable(), 
-            Tables\Columns\TextColumn::make('email')->searchable(), 
-            Tables\Columns\TextColumn::make('no_telp')->searchable(), 
-            Tables\Columns\TextColumn::make('jabatan')->searchable(), 
-            Tables\Columns\TextColumn::make('alamat')->searchable(), 
-            Tables\Columns\TextColumn::make('nama')->searchable()])
+            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable(), Tables\Columns\TextColumn::make('email')->searchable(), Tables\Columns\TextColumn::make('no_telp')->searchable(), Tables\Columns\TextColumn::make('jabatan')->searchable(), Tables\Columns\TextColumn::make('alamat')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable()])
             ->filters([
                 //
             ])

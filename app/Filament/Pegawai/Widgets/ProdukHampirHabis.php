@@ -10,7 +10,7 @@ class ProdukHampirHabis extends BaseWidget
 {
     protected function getStats(): array
     {
-        $jumlah = Produk::where('stok', '<=', 5)->count();
+        $jumlah = Produk::where('stok_produk', '<=', 5)->count();
 
         return [
             Stat::make('Produk Hampir Habis', $jumlah)
