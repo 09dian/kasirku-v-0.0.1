@@ -10,6 +10,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class DashboardPegawai extends BaseWidget
 {
+   
     protected function getStats(): array
     {
         return [
