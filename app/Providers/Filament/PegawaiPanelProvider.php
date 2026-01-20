@@ -29,8 +29,8 @@ class PegawaiPanelProvider extends PanelProvider
             ->authGuard('pegawai') // PEGAWAI
             ->login(LoginPegawai::class)
             ->colors([
-                'primary' => Color::Amber,
-            ])
+                'primary' => Color::Lime,
+            ])->brandName('Pegawai')
             ->discoverResources(in: app_path('Filament/Pegawai/Resources'), for: 'App\\Filament\\Pegawai\\Resources')
             ->discoverPages(in: app_path('Filament/Pegawai/Pages'), for: 'App\\Filament\\Pegawai\\Pages')
             ->pages([

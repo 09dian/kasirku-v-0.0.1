@@ -10,7 +10,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class DashboardPegawai extends BaseWidget
 {
-   
+    
+
     protected function getStats(): array
     {
         return [
@@ -21,10 +22,7 @@ class DashboardPegawai extends BaseWidget
                 ->icon('heroicon-m-shopping-cart')
                 ->color('primary'),
 
-            Stat::make('Stok Hampir Habis', Produk::where('stok_produk', '<=', 10)->count())
-                ->description('Stok ≤ 10')
-                ->icon('heroicon-m-exclamation-triangle')
-                ->color('danger'),
+            Stat::make('Barang keluar', History::sum('jumlahProduk'))->icon('heroicon-m-exclamation-triangle'),
         ];
     }
 
