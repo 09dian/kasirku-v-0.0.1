@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PegawaiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PegawaiResource\RelationManagers;
+use Filament\Tables\Columns\ToggleColumn;
 
 class PegawaiResource extends Resource
 {
@@ -42,7 +43,11 @@ class PegawaiResource extends Resource
             Forms\Components\TextInput::make('id_pegawai')->label('ID Pegawai')->required()->disabled()->dehydrated(true)->default(fn() => self::generateIdPegawai()),
 
             // PASSWORD = ID PEGAWAI
-            Forms\Components\Hidden::make('password')->dehydrated(true)->default(fn(Forms\Get $get) => Hash::make($get('id_pegawai'))),
+            Forms\Components\Hidden::make('password')
+                ->dehydrated(fn($state, $record) => $record === null) // hanya di-create
+                ->default(fn(Forms\Get $get) => Hash::make($get('id_pegawai')))
+                ->visible(fn($record) => $record === null),
+
             Forms\Components\TextInput::make('nama')->required(),
             Forms\Components\TextInput::make('email')->required(),
             Forms\Components\TextInput::make('no_telp')->required(),
@@ -54,7 +59,7 @@ class PegawaiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable(), Tables\Columns\TextColumn::make('email')->searchable(), Tables\Columns\TextColumn::make('no_telp')->searchable(), Tables\Columns\TextColumn::make('jabatan')->searchable(), Tables\Columns\TextColumn::make('alamat')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable()])
+            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable(), Tables\Columns\TextColumn::make('email')->searchable(), Tables\Columns\TextColumn::make('no_telp')->searchable(), Tables\Columns\TextColumn::make('jabatan')->searchable(), Tables\Columns\TextColumn::make('alamat')->searchable(), ToggleColumn::make('hakAkses')->searchable()])
             ->filters([
                 //
             ])

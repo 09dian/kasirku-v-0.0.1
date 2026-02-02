@@ -20,6 +20,7 @@ class Pegawai extends Authenticatable implements FilamentUser
         'password',
         'no_telp',
         'jabatan',
+        'hakAkses',
         'alamat',
     ];
 

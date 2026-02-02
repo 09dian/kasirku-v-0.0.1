@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('pegawais', function (Blueprint $table) {
-            $table->id();          
+            $table->id();
             $table->foreignId('idToko')->constrained('users')->cascadeOnDelete();
             $table->string('id_pegawai')->unique();
             $table->string('password');
@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('no_telp')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('alamat')->nullable();
+       
 
             $table->timestamps();
         });
