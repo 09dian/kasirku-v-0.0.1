@@ -24,35 +24,23 @@ class PegawaiPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('pegawai')
-            ->path('pegawai')
-            ->authGuard('pegawai') // PEGAWAI
-            ->login(LoginPegawai::class)
-            ->colors([
-                'primary' => Color::Lime,
-            ])->brandName('Pegawai')
+        ->id('pegawai')
+        ->path('pegawai')
+        ->authGuard('pegawai') // PEGAWAI
+        ->login(LoginPegawai::class)
+        ->colors([
+            'primary' => Color::Lime,
+            ])
+            ->brandName('Pegawai')
+            ->topNavigation()
             ->discoverResources(in: app_path('Filament/Pegawai/Resources'), for: 'App\\Filament\\Pegawai\\Resources')
             ->discoverPages(in: app_path('Filament/Pegawai/Pages'), for: 'App\\Filament\\Pegawai\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Pegawai/Widgets'), for: 'App\\Filament\\Pegawai\\Widgets')
             ->widgets([
                 // tempat widget khusus pegawai
             ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->middleware([EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSession::class, AuthenticateSession::class, ShareErrorsFromSession::class, VerifyCsrfToken::class, SubstituteBindings::class, DisableBladeIconComponents::class, DispatchServingFilamentEvent::class])
+            ->authMiddleware([Authenticate::class]);
     }
 }

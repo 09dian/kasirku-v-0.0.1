@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-     History::factory()->count(10)->create();
+    //  Produk::factory()->count(9000)->create();
+//    History::factory()->count(12000)->create();
     }
 }

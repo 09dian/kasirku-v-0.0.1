@@ -59,7 +59,13 @@ class PegawaiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(), Tables\Columns\TextColumn::make('nama')->searchable(), Tables\Columns\TextColumn::make('email')->searchable(), Tables\Columns\TextColumn::make('no_telp')->searchable(), Tables\Columns\TextColumn::make('jabatan')->searchable(), Tables\Columns\TextColumn::make('alamat')->searchable(), ToggleColumn::make('hakAkses')->searchable()])
+            ->columns([Tables\Columns\TextColumn::make('id_pegawai')->searchable(),
+             Tables\Columns\TextColumn::make('nama')->searchable(),
+              Tables\Columns\TextColumn::make('email')->searchable(),
+               Tables\Columns\TextColumn::make('no_telp')->searchable(),
+                Tables\Columns\TextColumn::make('jabatan')->searchable(),
+                 Tables\Columns\TextColumn::make('alamat')->searchable(),
+                  ToggleColumn::make('hakAkses')->searchable()])
             ->filters([
                 //
             ])

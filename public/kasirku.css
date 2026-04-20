@@ -228,7 +228,7 @@ html.dark .pos-info {
     color: #d1d5db;
 }
 html.dark .pos-price {
-    color: #4ade80; /* hijau lebih terang */
+    color: #4ade80; 
 }
 
 html.dark .pos-cart {
@@ -244,6 +244,6 @@ html.dark .cart-total {
 }
 
 .dark .keranjang {
-    background-color: #111827;  /* gray-900 */
-    border-color: #374151;      /* gray-700 */
+    background-color: #111827; 
+    border-color: #374151;     
 }
